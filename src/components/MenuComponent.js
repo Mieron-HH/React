@@ -54,7 +54,7 @@ class Menu extends Component {
 		const menu = this.state.dishes.map((dish) => {
 			return (
 				<div key={dish.id} className="col-12 mt-5 d-flex">
-					<div className="col-md-2 me-1">
+					<div className="col-md-2 me-0">
 						<Media object src={dish.image} alt={dish.name} />
 					</div>
 					<div className="col">
