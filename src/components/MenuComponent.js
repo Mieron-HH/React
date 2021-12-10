@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import SelectedDish from "./DishDetailComponent";
+import DishDetail from "./DishDetailComponent";
 import {
 	Card,
 	CardImg,
@@ -19,7 +19,6 @@ class Menu extends Component {
 
 	onDishSelect(dish) {
 		this.setState({ selectedDish: dish });
-		console.log("fuck", this.state.selectedDish);
 	}
 
 	render() {
@@ -39,7 +38,7 @@ class Menu extends Component {
 		return (
 			<div className="container mb-2">
 				<div className="row">{menu}</div>
-				<SelectedDish selectedDish={this.state.selectedDish} />
+				<DishDetail selectedDish={this.state.selectedDish} />
 			</div>
 		);
 	}

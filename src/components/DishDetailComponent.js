@@ -6,48 +6,67 @@ import {
 	CardText,
 	CardBody,
 	CardTitle,
+	Media,
 } from "reactstrap";
 
-class SelectedDish extends Component {
+class DishDetail extends Component {
 	constructor(props) {
 		super(props);
 	}
 
-	render() {
-		if (this.props.selectedDish != null) {
-			const comments = this.props.selectedDish.comments.map((comment) => {
+	renderDish(SelectedDish) {
+		return (
+			<Card>
+				<CardImg top src={SelectedDish.image} alt={SelectedDish.name} />
+				<CardBody>
+					<CardTitle>{SelectedDish.name}</CardTitle>
+					<CardText>{SelectedDish.description}</CardText>
+				</CardBody>
+			</Card>
+		);
+	}
+	renderComments(Comments) {
+		if (Comments != null) {
+			const comment_details = Comments.map((comment) => {
 				return (
-					<div key={comment.id}>
+					<Media key={comment.id} tag="li">
 						<p>{comment.comment}</p>
 						<p>
 							-- {comment.author} , {comment.date}
 						</p>
-					</div>
+					</Media>
 				);
 			});
+
+			return (
+				<div>
+					<h2>Comments</h2>
+					{comment_details}
+				</div>
+			);
+		} else {
+			return <div></div>;
+		}
+	}
+	render() {
+		const SelectedDish = this.props.selectedDish;
+		if (SelectedDish != null) {
 			return (
 				<div className="row">
 					<div className="col-12 col-md-5 m-1">
-						<Card>
-							<CardImg
-								top
-								src={this.props.selectedDish.image}
-								alt={this.props.selectedDish.name}
-							/>
-							<CardBody>
-								<CardTitle>{this.props.selectedDish.name}</CardTitle>
-								<CardText>{this.props.selectedDish.description}</CardText>
-							</CardBody>
-						</Card>
+						{this.renderDish(SelectedDish)}
 					</div>
 					<div className="col-12 col-md-5 m-1">
-						<h2>Comments</h2>
-						{comments}
+						<Media list className="list-unstyled">
+							{this.renderComments(SelectedDish.comments)}
+						</Media>
 					</div>
 				</div>
 			);
-		} else return <div></div>;
+		} else {
+			return <div></div>;
+		}
 	}
 }
 
-export default SelectedDish;
+export default DishDetail;
