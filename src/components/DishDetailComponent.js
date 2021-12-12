@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
 	Card,
 	CardImg,
-	CardImgOverlay,
 	CardText,
 	CardBody,
 	CardTitle,
@@ -10,10 +9,6 @@ import {
 } from "reactstrap";
 
 class DishDetail extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	renderDish(SelectedDish) {
 		return (
 			<Card>
@@ -32,7 +27,12 @@ class DishDetail extends Component {
 					<Media key={comment.id} tag="li">
 						<p>{comment.comment}</p>
 						<p>
-							-- {comment.author} , {comment.date}
+							-- {comment.author} ,{" "}
+							{new Intl.DateTimeFormat("en-US", {
+								year: "numeric",
+								month: "short",
+								day: "2-digit",
+							}).format(new Date(Date.parse(comment.date)))}
 						</p>
 					</Media>
 				);
@@ -49,17 +49,19 @@ class DishDetail extends Component {
 		}
 	}
 	render() {
-		const SelectedDish = this.props.selectedDish;
+		const SelectedDish = this.props.dish;
 		if (SelectedDish != null) {
 			return (
-				<div className="row">
-					<div className="col-12 col-md-5 m-1">
-						{this.renderDish(SelectedDish)}
-					</div>
-					<div className="col-12 col-md-5 m-1">
-						<Media list className="list-unstyled">
-							{this.renderComments(SelectedDish.comments)}
-						</Media>
+				<div className="container mb-2">
+					<div className="row">
+						<div className="col-12 col-md-5 m-1">
+							{this.renderDish(SelectedDish)}
+						</div>
+						<div className="col-12 col-md-5 m-1">
+							<Media list className="list-unstyled">
+								{this.renderComments(SelectedDish.comments)}
+							</Media>
+						</div>
 					</div>
 				</div>
 			);
