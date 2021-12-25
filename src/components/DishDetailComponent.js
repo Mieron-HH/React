@@ -6,7 +6,10 @@ import {
 	CardBody,
 	CardTitle,
 	Media,
+	Breadcrumb,
+	BreadcrumbItem,
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 function RenderDish({ dish }) {
 	return (
@@ -24,7 +27,7 @@ function RenderComments({ Comments }) {
 	if (Comments != null) {
 		const comment_details = Comments.map((comment) => {
 			return (
-				<Media key={comment.id} tag="li">
+				<li key={comment.id}>
 					<p>{comment.comment}</p>
 					<p>
 						-- {comment.author} ,{" "}
@@ -34,7 +37,7 @@ function RenderComments({ Comments }) {
 							day: "2-digit",
 						}).format(new Date(Date.parse(comment.date)))}
 					</p>
-				</Media>
+				</li>
 			);
 		});
 
@@ -50,18 +53,29 @@ function RenderComments({ Comments }) {
 }
 
 const DishDetail = (props) => {
-	const SelectedDish = props.dish;
-	if (SelectedDish != null) {
+	if (props.dish != null) {
 		return (
 			<div className="container mb-2">
 				<div className="row">
+					<Breadcrumb>
+						<BreadcrumbItem>
+							<Link to="/menu">Menu</Link>
+						</BreadcrumbItem>
+						<BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+					</Breadcrumb>
+					<div className="col-12">
+						<h3>{props.dish.name}</h3>
+						<hr />
+					</div>
+				</div>
+				<div className="row">
 					<div className="col-12 col-md-5 m-1">
-						<RenderDish dish={SelectedDish} />
+						<RenderDish dish={props.dish} />
 					</div>
 					<div className="col-12 col-md-5 m-1">
-						<Media list className="list-unstyled">
-							<RenderComments Comments={SelectedDish.comments} />
-						</Media>
+						<ul className="list-unstyled">
+							<RenderComments Comments={props.comments} />
+						</ul>
 					</div>
 				</div>
 			</div>
