@@ -61,7 +61,7 @@ class Header extends Component {
 				<Navbar dark expand="md">
 					<NavbarBrand href="/">
 						<img
-							src="assets/images/logo.png"
+							src="../assets/images/logo.png"
 							height="30"
 							width="41"
 							alt="Ristorante Con Fusion"
