@@ -14,15 +14,15 @@ const mapStateToProps = (state) => {
 	return {
 		dishes: state.dishes,
 		comments: state.comments,
-		promotion: state.promotion,
+		promotions: state.promotions,
 		leaders: state.leaders,
 	};
 };
 
 class Main extends Component {
-	constructor(props) {
-		super(props);
-	}
+	// constructor(props) {
+	// 	super(props);
+	// }
 
 	render() {
 		const HomePage = () => {

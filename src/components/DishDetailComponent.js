@@ -5,7 +5,6 @@ import {
 	CardText,
 	CardBody,
 	CardTitle,
-	Media,
 	Breadcrumb,
 	BreadcrumbItem,
 } from "reactstrap";
