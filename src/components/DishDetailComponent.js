@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
 	Card,
 	CardImg,
@@ -7,8 +7,17 @@ import {
 	CardTitle,
 	Breadcrumb,
 	BreadcrumbItem,
+	Button,
+	Modal,
+	ModalBody,
+	Row,
+	Col,
+	Label,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { Control, LocalForm, Errors } from "react-redux-form";
 
 function RenderDish({ dish }) {
 	return (
@@ -51,6 +60,136 @@ function RenderComments({ Comments }) {
 	}
 }
 
+class CommentForm extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			show: false,
+		};
+
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleSubmit(values) {
+		console.log("Current State is: " + JSON.stringify(values));
+		alert("Current State is: " + JSON.stringify(values));
+		this.setState({
+			show: !this.state.show,
+		});
+	}
+
+	render() {
+		const toggleModal = () => {
+			this.setState({
+				show: !this.state.show,
+			});
+		};
+
+		const required = (val) => val && val.length;
+		const maxLength = (len) => (val) => !val || val.length <= len;
+		const minLength = (len) => (val) => val && val.length >= len;
+
+		return (
+			<div>
+				<Modal isOpen={this.state.show} size="md">
+					<div class="modal-header">
+						<h4 class="modal-title" style={{ fontWeight: "bold" }}>
+							Submit Comment
+						</h4>
+						<i
+							className="fa fa-close ms-auto"
+							style={{ color: "#0000007a" }}
+							onClick={toggleModal}
+						></i>
+					</div>
+
+					<ModalBody>
+						<LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+							<Row className="form-group mb-3">
+								<Label htmlFor="rating" sm={12} style={{ fontWeight: "bold" }}>
+									Rating
+								</Label>
+								<Col sm={12}>
+									<Control.select
+										model=".rating"
+										id="rating"
+										name="rating"
+										className="form-control"
+									>
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+									</Control.select>
+								</Col>
+							</Row>
+
+							<Row className="form-group mb-3">
+								<Label htmlFor="author" sm={12} style={{ fontWeight: "bold" }}>
+									Your Name
+								</Label>
+								<Col sm={12}>
+									<Control.text
+										model=".author"
+										id="author"
+										name="author"
+										className="form-control"
+										placeholder="Your Name"
+										validators={{
+											required,
+											minLength: minLength(3),
+											maxLength: maxLength(15),
+										}}
+									></Control.text>
+									<Errors
+										className="text-danger"
+										model=".author"
+										show="touched"
+										messages={{
+											required: "Required* ",
+											minLength: "Must be greater than 2 characters ",
+											maxLength: "Must be 15 characters or less ",
+										}}
+									/>
+								</Col>
+							</Row>
+
+							<Row className="form-group mb-3">
+								<Label htmlFor="comment" sm={12} style={{ fontWeight: "bold" }}>
+									Comment
+								</Label>
+								<Col sm={12}>
+									<Control.textarea
+										model=".comment"
+										id="comment"
+										name="comment"
+										className="form-control"
+										rows="6"
+									></Control.textarea>
+								</Col>
+							</Row>
+
+							<Row className="form-group mb-3">
+								<Col sm={{ size: 12 }}>
+									<Button type="submit" color="primary">
+										Submit
+									</Button>
+								</Col>
+							</Row>
+						</LocalForm>
+					</ModalBody>
+				</Modal>
+
+				<button className="submit-comment" onClick={toggleModal}>
+					<FontAwesomeIcon icon={faPencilAlt} /> Submit Comment
+				</button>
+			</div>
+		);
+	}
+}
+
 const DishDetail = (props) => {
 	if (props.dish != null) {
 		return (
@@ -74,6 +213,7 @@ const DishDetail = (props) => {
 					<div className="col-12 col-md-5 m-1">
 						<ul className="list-unstyled">
 							<RenderComments Comments={props.comments} />
+							<CommentForm />
 						</ul>
 					</div>
 				</div>

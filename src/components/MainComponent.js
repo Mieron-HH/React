@@ -46,6 +46,7 @@ class Main extends Component {
 					comments={this.props.comments.filter(
 						(comment) => comment.dishId === parseInt(match.params.dishId, 10)
 					)}
+					show={this.props.show}
 				/>
 			);
 		};
